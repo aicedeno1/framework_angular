@@ -1,0 +1,122 @@
+<div class="container">
+  <h1>Buscador de Artículos Científicos - PLOS</h1>
+
+  <!-- Sección de Búsqueda -->
+  <div class="search-section">
+    <div class="search-box">
+      <input 
+        type="text" 
+        class="search-input" 
+        [(ngModel)]="searchQuery"
+        (keyup.enter)="search()"
+        placeholder="Ingresa un término de búsqueda (ej: cancer, climate change, covid...)"
+        [disabled]="loading">
+      <button 
+        class="btn btn-primary" 
+        (click)="search()"
+        [disabled]="loading || !searchQuery.trim()">
+        {{ loading ? 'Buscando...' : 'Buscar' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Mensaje de Error -->
+  <div class="error" *ngIf="error && !loading">
+    {{ error }}
+  </div>
+
+  <!-- Loading -->
+  <div class="loading" *ngIf="loading">
+    Buscando artículos...
+  </div>
+
+  <!-- Resultados -->
+  <div *ngIf="!loading && articles.length > 0">
+    <!-- Info de Resultados -->
+    <div class="results-info">
+      Se encontraron <strong>{{ totalResults }}</strong> artículos. 
+      Mostrando página <strong>{{ currentPage }}</strong> de <strong>{{ totalPages }}</strong>
+    </div>
+
+    <!-- Botones de Exportación -->
+    <div class="export-buttons">
+      <button class="btn btn-secondary" (click)="exportToCSV()">
+        Exportar a CSV
+      </button>
+      <button class="btn btn-danger" (click)="exportToPDF()">
+        Exportar a PDF
+      </button>
+    </div>
+
+    <!-- Selector de Tamaño de Página -->
+    <div class="page-size-selector">
+      <label for="pageSize">Artículos por página:</label>
+      <select 
+        id="pageSize" 
+        [(ngModel)]="pageSize" 
+        (change)="onPageSizeChange()">
+        <option *ngFor="let size of pageSizeOptions" [value]="size">
+          {{ size }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Tabla de Resultados -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Título</th>
+            <th>Journal</th>
+            <th>Fecha</th>
+            <th>DOI</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let article of articles; let i = index">
+            <td>{{ getArticleNumber(i) }}</td>
+            <td>{{ article.title }}</td>
+            <td>{{ article.journal }}</td>
+            <td>{{ article.publication_date }}</td>
+            <td>
+              <a 
+                [href]="getDOIUrl(article.doi)" 
+                target="_blank" 
+                class="doi-link"
+                rel="noopener noreferrer">
+                {{ article.doi }}
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Paginación -->
+    <div class="pagination">
+      <button 
+        class="btn btn-primary" 
+        (click)="previousPage()"
+        [disabled]="currentPage === 1 || loading">
+        ← Anterior
+      </button>
+      
+      <span class="pagination-info">
+        Página {{ currentPage }} de {{ totalPages }}
+      </span>
+      
+      <button 
+        class="btn btn-primary" 
+        (click)="nextPage()"
+        [disabled]="currentPage === totalPages || loading">
+        Siguiente →
+      </button>
+    </div>
+  </div>
+
+  <!-- Sin Resultados -->
+  <div class="no-results" *ngIf="!loading && articles.length === 0 && searchQuery && !error">
+    No se encontraron artículos
+  </div>
+</div>
