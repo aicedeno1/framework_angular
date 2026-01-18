@@ -15,7 +15,7 @@ export class AppComponent {
   loading: boolean = false;
   error: string = '';
   
-  // Paginación
+
   currentPage: number = 1;
   pageSize: number = 10;
   totalResults: number = 0;
@@ -58,7 +58,6 @@ export class AppComponent {
       });
   }
 
-  // Paginación
   get totalPages(): number {
     return Math.ceil(this.totalResults / this.pageSize);
   }
@@ -97,14 +96,12 @@ export class AppComponent {
     return this.plosService.getDOIUrl(doi);
   }
 
-  // Generar números de página para mostrar
   getPageNumbers(): number[] {
     const pages: number[] = [];
     const maxPagesToShow = 5;
     let startPage = Math.max(1, this.currentPage - 2);
     let endPage = Math.min(this.totalPages, startPage + maxPagesToShow - 1);
 
-    // Ajustar si estamos cerca del final
     if (endPage - startPage < maxPagesToShow - 1) {
       startPage = Math.max(1, endPage - maxPagesToShow + 1);
     }
@@ -159,7 +156,6 @@ export class AppComponent {
     document.body.removeChild(link);
   }
 
-  // Exportar a PDF
   exportToPDF(): void {
     if (this.articles.length === 0) {
       alert('No hay artículos para exportar');
@@ -167,8 +163,7 @@ export class AppComponent {
     }
 
     const doc = new jsPDF();
-    
-    // Título
+
     doc.setFontSize(18);
     doc.text('PLOS - Resultados de Búsqueda', 14, 22);
     
@@ -177,7 +172,6 @@ export class AppComponent {
     doc.text(`Página: ${this.currentPage} de ${this.totalPages}`, 14, 40);
     doc.text(`Total de resultados: ${this.totalResults}`, 14, 48);
 
-    // Tabla
     const tableData = this.articles.map((article, index) => [
       this.getArticleNumber(index).toString(),
       article.title,

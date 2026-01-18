@@ -1,7 +1,7 @@
 <div class="container">
   <h1>Buscador de Artículos Científicos - PLOS</h1>
 
-  <!-- Sección de Búsqueda -->
+
   <div class="search-section">
     <div class="search-box">
       <input 
@@ -20,25 +20,23 @@
     </div>
   </div>
 
-  <!-- Mensaje de Error -->
+
   <div class="error" *ngIf="error && !loading">
     {{ error }}
   </div>
 
-  <!-- Loading -->
+
   <div class="loading" *ngIf="loading">
     Buscando artículos...
   </div>
 
-  <!-- Resultados -->
   <div *ngIf="!loading && articles.length > 0">
-    <!-- Info de Resultados -->
+
     <div class="results-info">
       Se encontraron <strong>{{ totalResults }}</strong> artículos. 
       Mostrando página <strong>{{ currentPage }}</strong> de <strong>{{ totalPages }}</strong>
     </div>
 
-    <!-- Botones de Exportación -->
     <div class="export-buttons">
       <button class="btn btn-secondary" (click)="exportToCSV()">
         Exportar a CSV
@@ -48,7 +46,6 @@
       </button>
     </div>
 
-    <!-- Selector de Tamaño de Página -->
     <div class="page-size-selector">
       <label for="pageSize">Artículos por página:</label>
       <select 
@@ -61,7 +58,6 @@
       </select>
     </div>
 
-    <!-- Tabla de Resultados -->
     <div class="table-container">
       <table>
         <thead>
@@ -93,7 +89,6 @@
       </table>
     </div>
 
-    <!-- Paginación -->
     <div class="pagination">
       <button 
         class="btn btn-primary btn-page" 
@@ -102,7 +97,6 @@
         ← Anterior
       </button>
 
-      <!-- Primera página -->
       <button 
         *ngIf="shouldShowFirstPage()"
         class="btn btn-page"
@@ -114,7 +108,6 @@
 
       <span *ngIf="shouldShowFirstPage()" class="page-dots">...</span>
 
-      <!-- Números de página -->
       <button 
         *ngFor="let page of getPageNumbers()"
         class="btn btn-page"
@@ -126,7 +119,6 @@
 
       <span *ngIf="shouldShowLastPage()" class="page-dots">...</span>
 
-      <!-- Última página -->
       <button 
         *ngIf="shouldShowLastPage()"
         class="btn btn-page"
@@ -145,7 +137,6 @@
     </div>
   </div>
 
-  <!-- Sin Resultados -->
   <div class="no-results" *ngIf="!loading && articles.length === 0 && searchQuery && !error">
     No se encontraron artículos
   </div>
