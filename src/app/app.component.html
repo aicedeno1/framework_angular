@@ -96,18 +96,48 @@
     <!-- Paginación -->
     <div class="pagination">
       <button 
-        class="btn btn-primary" 
+        class="btn btn-primary btn-page" 
         (click)="previousPage()"
         [disabled]="currentPage === 1 || loading">
         ← Anterior
       </button>
-      
-      <span class="pagination-info">
-        Página {{ currentPage }} de {{ totalPages }}
-      </span>
+
+      <!-- Primera página -->
+      <button 
+        *ngIf="shouldShowFirstPage()"
+        class="btn btn-page"
+        [class.active]="currentPage === 1"
+        (click)="goToPage(1)"
+        [disabled]="loading">
+        1
+      </button>
+
+      <span *ngIf="shouldShowFirstPage()" class="page-dots">...</span>
+
+      <!-- Números de página -->
+      <button 
+        *ngFor="let page of getPageNumbers()"
+        class="btn btn-page"
+        [class.active]="currentPage === page"
+        (click)="goToPage(page)"
+        [disabled]="loading">
+        {{ page }}
+      </button>
+
+      <span *ngIf="shouldShowLastPage()" class="page-dots">...</span>
+
+      <!-- Última página -->
+      <button 
+        *ngIf="shouldShowLastPage()"
+        class="btn btn-page"
+        [class.active]="currentPage === totalPages"
+        (click)="goToPage(totalPages)"
+        [disabled]="loading">
+        {{ totalPages }}
+      </button>
       
       <button 
-        class="btn btn-primary" 
+        class="btn btn-primary btn-page" 
         (click)="nextPage()"
         [disabled]="currentPage === totalPages || loading">
         Siguiente →

@@ -97,6 +97,33 @@ export class AppComponent {
     return this.plosService.getDOIUrl(doi);
   }
 
+  // Generar números de página para mostrar
+  getPageNumbers(): number[] {
+    const pages: number[] = [];
+    const maxPagesToShow = 5;
+    let startPage = Math.max(1, this.currentPage - 2);
+    let endPage = Math.min(this.totalPages, startPage + maxPagesToShow - 1);
+
+    // Ajustar si estamos cerca del final
+    if (endPage - startPage < maxPagesToShow - 1) {
+      startPage = Math.max(1, endPage - maxPagesToShow + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+
+    return pages;
+  }
+
+  shouldShowFirstPage(): boolean {
+    return this.currentPage > 3;
+  }
+
+  shouldShowLastPage(): boolean {
+    return this.currentPage < this.totalPages - 2;
+  }
+
   // Exportar a CSV
   exportToCSV(): void {
     if (this.articles.length === 0) {

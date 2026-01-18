@@ -181,8 +181,45 @@ tr:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.btn-page {
+  min-width: 45px;
+  padding: 10px 15px;
+  background: white;
+  color: #0B5563;
+  border: 2px solid #ddd;
+  font-size: 14px;
+}
+
+.btn-page:hover:not(:disabled) {
+  background: #17A2B8;
+  color: white;
+  border-color: #17A2B8;
+  transform: translateY(-2px);
+}
+
+.btn-page.active {
+  background: #17A2B8;
+  color: white;
+  border-color: #17A2B8;
+  font-weight: bold;
+}
+
+.btn-page:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.page-dots {
+  color: #666;
+  font-weight: bold;
+  padding: 0 5px;
+  font-size: 18px;
 }
 
 .pagination-info {
